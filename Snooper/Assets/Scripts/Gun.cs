@@ -1,3 +1,4 @@
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class Gun : MonoBehaviour
@@ -6,36 +7,50 @@ public class Gun : MonoBehaviour
     public float launchForce;
     public Transform shotPoint;
 
-    private Vector2 dragStartPos;
-    private bool isDragging = false;
+    public GameObject point;
+    GameObject[] points;
+    public int numberOfPoints;
+    public float spaceBetweenPoints;
+    Vector2 Direction;
 
-    private void Update()
+    private void Start()
     {
-        if (Input.GetMouseButtonDown(0))
+        // Initialize the points array and instantiate the points
+        points = new GameObject[numberOfPoints];
+        for (int i = 0; i < numberOfPoints; i++)
         {
-            // Store the initial position of the drag
-            dragStartPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            isDragging = true;
-        }
-
-        if (Input.GetMouseButtonUp(0) && isDragging)
-        {
-            // Calculate the drag distance and direction
-            Vector2 dragEndPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector2 dragDirection = (dragStartPos - dragEndPos).normalized; // Inverted direction
-            float dragDistance = Vector2.Distance(dragStartPos, dragEndPos);
-
-            // Shoot the bullet
-            Shoot(dragDirection, dragDistance);
-
-            isDragging = false;
+            points[i] = Instantiate(point, shotPoint.position, Quaternion.identity);
+            // Offset the position of each point along the shotPoint's forward direction
+            points[i].transform.Translate(Vector3.forward * spaceBetweenPoints * i);
         }
     }
 
-    void Shoot(Vector2 direction, float forceMultiplier)
+    private void Update()
     {
+        Vector2 gunPosition = transform.position;
+        Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Direction = mousePosition - gunPosition;
+        transform.right = Direction;
+
+        if(Input .GetMouseButtonDown(0))
+        {
+            Shoot();
+        }
+        for (int i = 0; i <numberOfPoints;i++)
+        {
+            points[i].transform.position = PointPosition(i * spaceBetweenPoints);
+        }
+    }
+
+    void Shoot()
+    {
+        // Create a bullet and set its position and force
         GameObject newBullet = Instantiate(bullet, shotPoint.position, shotPoint.rotation);
-        Rigidbody2D rb = newBullet.GetComponent<Rigidbody2D>();
-        rb.velocity = direction * launchForce * forceMultiplier;
+        newBullet.GetComponent<Rigidbody2D>().velocity = transform.right * launchForce ;
+    }
+    Vector2 PointPosition(float t)
+    {
+        Vector2 position = (Vector2)shotPoint.position + (Direction.normalized * launchForce * t) + 0.5f * Physics2D.gravity * (t * t);
+        return position;
     }
 }

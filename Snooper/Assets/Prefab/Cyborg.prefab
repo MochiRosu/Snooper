@@ -261,3 +261,6 @@ MonoBehaviour:
   bullet: {fileID: 3650341528801846986, guid: b1ff9a0794f41f24f8c364aaa2ba50fc, type: 3}
   launchForce: 20
   shotPoint: {fileID: 8438445843857950476}
+  point: {fileID: 3151522312376737696, guid: 1d2c3862e2cefa04587489db2ac1cb46, type: 3}
+  numberOfPoints: 10
+  spaceBetweenPoints: 0.1
