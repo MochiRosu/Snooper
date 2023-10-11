@@ -4,7 +4,6 @@ public class Bullet : MonoBehaviour
 {
     Rigidbody2D rb;
     bool hasHit;
-    
 
     void Start()
     {
@@ -22,8 +21,6 @@ public class Bullet : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        hasHit = true;
-        rb.velocity = Vector2.zero;
-        rb.isKinematic = true;
+       
     }
 }

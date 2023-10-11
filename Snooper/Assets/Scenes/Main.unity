@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 510007113}
   - component: {fileID: 510007115}
   - component: {fileID: 510007114}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: ForeGround
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -255,7 +255,7 @@ GameObject:
   - component: {fileID: 1564910441}
   - component: {fileID: 1564910440}
   - component: {fileID: 1564910442}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
