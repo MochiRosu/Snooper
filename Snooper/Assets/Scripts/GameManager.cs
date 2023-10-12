@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
 
     private int totalEnemies;
     private int enemiesDefeated;
+    private bool gameEnded = false; // Variable to track whether the game has ended
 
     void Start()
     {
@@ -27,24 +28,27 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (!gameEnded) // Only allow shooting when the game hasn't ended
         {
-            Shoot();
+            if (Input.GetMouseButtonDown(0))
+            {
+                Shoot();
+            }
         }
 
-        CheckWinCondition();
+        CheckWinCondition(); // Check for the win condition continuously
     }
 
     void Shoot()
     {
-        if (currentBullets > 0)
+        if (!gameEnded && currentBullets > 0)
         {
             currentBullets--;
             bulletsText.text = "Bullets: " + currentBullets + " / " + maxBullets;
 
             // Your shooting logic here
         }
-        else
+        else if (!gameEnded)
         {
             HandleGameOver();
         }
@@ -52,11 +56,13 @@ public class GameManager : MonoBehaviour
 
     void HandleGameOver()
     {
+        gameEnded = true; // Mark the game as ended
         gameOverScreen.SetActive(true);
     }
 
     void HandleGameWin()
     {
+        gameEnded = true; // Mark the game as ended
         youWinScreen.SetActive(true);
     }
 
