@@ -5,14 +5,13 @@ public class Gun : MonoBehaviour
     public GameObject bullet;
     public float launchForce;
     public Transform shotPoint;
-
     public GameObject point;
     GameObject[] points;
     public int numberOfPoints;
     public float spaceBetweenPoints;
     Vector2 Direction;
-
     private bool isAiming; // Indicates whether the player is currently aiming
+    private int bulletsFired = 0; // Counter for the number of bullets fired
 
     private void Start()
     {
@@ -41,7 +40,11 @@ public class Gun : MonoBehaviour
 
                 case TouchPhase.Ended:
                     isAiming = false;
-                    Shoot(); // Fire the bullet when the finger is lifted
+                    if (bulletsFired < 5)
+                    {
+                        Shoot(); // Fire the bullet when the finger is lifted
+                        bulletsFired++;
+                    }
                     break;
             }
 

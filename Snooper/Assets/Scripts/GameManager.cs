@@ -1,14 +1,15 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using TMPro;
 
 public class GameManager : MonoBehaviour
 {
     public int maxBullets = 5;
     private int currentBullets;
-    public TextMeshProUGUI bulletsText;
+    public TMP_Text bulletsText;
     public GameObject gameOverScreen;
     public GameObject youWinScreen;
+    public GameObject enemyPrefab;
 
     private int totalEnemies;
     private int enemiesDefeated;
@@ -19,6 +20,7 @@ public class GameManager : MonoBehaviour
         bulletsText.text = "Bullets: " + currentBullets + " / " + maxBullets;
         gameOverScreen.SetActive(false);
         youWinScreen.SetActive(false);
+
         totalEnemies = GameObject.FindGameObjectsWithTag("Enemy").Length;
         enemiesDefeated = 0;
     }
@@ -30,10 +32,7 @@ public class GameManager : MonoBehaviour
             Shoot();
         }
 
-        if (enemiesDefeated >= totalEnemies)
-        {
-            HandleGameWin();
-        }
+        CheckWinCondition();
     }
 
     void Shoot()
@@ -42,6 +41,7 @@ public class GameManager : MonoBehaviour
         {
             currentBullets--;
             bulletsText.text = "Bullets: " + currentBullets + " / " + maxBullets;
+
             // Your shooting logic here
         }
         else
@@ -60,9 +60,19 @@ public class GameManager : MonoBehaviour
         youWinScreen.SetActive(true);
     }
 
+    void CheckWinCondition()
+    {
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+
+        if (enemies.Length == 0)
+        {
+            HandleGameWin();
+        }
+    }
+
     public void RestartGame()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
     }
 
     public void EnemyDefeated()
