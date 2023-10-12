@@ -2,25 +2,23 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    Rigidbody2D rb;
-    bool hasHit;
+    public float damage = 1.0f;
+    public float lifespan = 5.0f; // Time in seconds before the bullet disappears.
 
-    void Start()
+    private void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
+        // Schedule the bullet to be destroyed after the specified lifespan.
+        Destroy(gameObject, lifespan);
     }
 
-    void Update()
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        if (!hasHit)
+        if (other.CompareTag("Enemy"))
         {
-            float angle = Mathf.Atan2(rb.velocity.y, rb.velocity.x) * Mathf.Rad2Deg;
-            transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-        }
-    }
+            // Apply damage to the enemy
+            Destroy(other.gameObject); // Destroy the enemy GameObject.
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-       
+            // Optionally, you can add more logic here based on the tag.
+        }
     }
 }
