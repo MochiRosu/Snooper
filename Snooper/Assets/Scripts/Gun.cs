@@ -71,6 +71,8 @@ public class Gun : MonoBehaviour
         // Create a bullet and set its position and force
         GameObject newBullet = Instantiate(bullet, shotPoint.position, shotPoint.rotation);
         newBullet.GetComponent<Rigidbody2D>().velocity = transform.right * launchForce;
+        Debug.Log("Shoot method called."); // Add this line for debugging
+
     }
 
     Vector2 PointPosition(float t)
